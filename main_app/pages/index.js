@@ -1,10 +1,35 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
+import React, {useState } from 'react'
+import Axios from 'axios'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+    const [logUser, setUser] = useState('')
+    const [logPass, setPass] = useState('')
+    const login = () =>{
+      if(logUser=="" || logPass==""){
+        Swal.fire({
+          icon: 'error',
+          title: 'Please fill up the necessary information needed',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Okay',
+          }).then((result) => {
+          if (result.isConfirmed) {
+              window.location.href = "./";
+              }else{
+                  window.location.href = "./";
+              }
+          })
+      }else{
+        Axios.post('http://localhost:2023/read',{
+          username: logUser, 
+          password: logPass
+        })
+      }
+    };
   return (
     <>
       <Head>
@@ -13,8 +38,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:wght@300&display=swap" rel="stylesheet"></link>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       </Head>
 
       <section className="vh-100 gradient-custom">
@@ -31,16 +56,16 @@ export default function Home() {
 
                       <form action="">
                         <div className="form-outline form-white mb-4">
-                          <input type="text" id="typeEmailX" className="form-control form-control-lg" placeholder='Enter Username' required />
+                          <input type="text" id="typeUsernameX" onChange={(e)=>{setUser(e.target.value);}} className="form-control form-control-lg" placeholder='Enter Username' required />
                         </div>
 
                         <div className="form-outline form-white mb-4">
-                          <input type="password" id="typePasswordX" className="form-control form-control-lg" placeholder='Enter Password' required />
+                          <input type="password" id="typePasswordX" onChange={(e)=>{setPass(e.target.value);}} className="form-control form-control-lg" placeholder='Enter Password' required />
                         </div>
 
                         <p className="small mb-5 pb-lg-2"><a className="text-white-50" data-bs-toggle="modal" data-bs-target="#forgotpass" href="">Forgot password?</a></p>
 
-                        <button className="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                        <button className="btn btn-outline-light btn-lg px-5" onClick={login} type="submit">Login</button>
                       </form>
 
                     </div>
