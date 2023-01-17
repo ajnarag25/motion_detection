@@ -24,17 +24,34 @@ app.post("/insert", async(req, res) => {
     const bcrypt = require('bcryptjs');
     const salt = bcrypt.genSaltSync(10);
     const encrypt = await bcrypt.hash(password, salt)
+  
+    const query="SELECT * from users where email=? AND username=?";
+    const params=[email,username]
+    connection.query(query,params,(err,rows) => {
+      if(err) throw err;
+      //
+      var output={}
+      if(username == "" || email == "" || password == ""){
+        output["message"]="Please fill up the necessary informations needed";
+      }else if(password != repassword){
+        output["message"]="Password does not match";
+      }else{
+        if(rows.length!=0)
+        {
+          console.log('User already exists')
+          output["message"]="User already exists";
+        }else{
+          console.log('Successfully Registered')
+          output["message"]="Successfully Registered";
+          connection.query(
+            "INSERT INTO users (username, email, password) VALUES (?,?,?)", [username, email, encrypt],
+          );
+        }
+      }
 
-    if(username == "" || email == "" || password == ""){
-      res.send({ message: "Please fill up the necessary informations needed" });
-    }else if(password != repassword){
-      res.send({ message: "Password does not match" });
-    }else{
-      res.send({ message: "Successfully Registered" });
-      connection.query(
-        "INSERT INTO users (username, email, password) VALUES (?,?,?)", [username, email, encrypt],
-      );
-    }
+      res.json(output)
+    
+      });
 
 });
 
@@ -96,23 +113,36 @@ app.post("/insert", async(req, res) => {
       });
   })
 
-  app.post("/change", (request, response) => {
-    const password = req.body.password
-    const repassword = req.body.repass
-    const query="SELECT * from users where email=?";
+  app.post("/change", async (request, response) => {
+    const email = request.body.email
+    const password = request.body.password
+    const repassword = request.body.repass
+    const query="SELECT password from users where email=?";
     const params=[email]
+    const bcrypt = require('bcryptjs');
+    const salt = bcrypt.genSaltSync(10);
+    const encrypt = await bcrypt.hash(password, salt)
     connection.query(query,params,(err,rows) => {
       if(err) throw err;
       //
       var output={}
-      if(rows.length!=0)
-      {
-        console.log('Email found')
-        output["message"]="Email found";
-    
+      if (password != repassword){
+        output["message"]="Password does not match";
+      }else if(password == "" || repassword == ""){
+        output["message"]="Please fill up the necessary information needed";
       }else{
-        console.log('could not find email')
-        output["message"]="Could not find email";
+        if(rows.length!=0)
+        {
+          connection.query(
+            "UPDATE users SET password = ? WHERE email = ?;", [encrypt, email],
+          );
+          console.log('Successfully Reset Password')
+          output["message"]="Successfully Reset Password";
+      
+        }else{
+          console.log('An Error Occured')
+          output["message"]="An Error Occured";
+        }
       }
       response.json(output)
     

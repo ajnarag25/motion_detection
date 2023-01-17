@@ -4,35 +4,19 @@ import { Inter } from '@next/font/google'
 import React, {useState } from 'react'
 import Axios from 'axios' 
 import axios from 'axios'
+import {useRouter} from 'next/router';
 
 const inter = Inter({ subsets: ['latin'] })
-
 export default function Home() {
-    const url = require('url');
-
-    // new URL object
-    const current_url = new URL('http://usefulangle.com/preview?id=123&type=article');
-    
-    // get access to URLSearchParams object
-    const search_params = current_url.searchParams;
-    
-    // get url parameters
-    const id = search_params.get('id');
-    const type = search_params.get('type');
-    
-    // "123"
-    console.log(id);
-    
-    // "article"
-    console.log(type);
-
+    const router = useRouter()
+    const get_email = router.query.email
     const [changePass, setPass] = useState('')
     const [changeRepass, setRepass] = useState('')
     const [changeStatuseErr, changeRegstaterr] = useState('')
-  
+    
     const change = () =>{
-        console.log(check)
         Axios.post('http://localhost:2023/change',{
+          email: get_email,
           password: changePass,
           repass: changeRepass
         }).then((response)=>{
@@ -58,6 +42,7 @@ export default function Home() {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       </Head>
+      
       <section className="vh-100 gradient-custom">
           <div className="container py-5 h-100">
             <div className="row d-flex justify-content-center align-items-center h-100">
@@ -69,10 +54,7 @@ export default function Home() {
 
                       <h2 className="fw-bold mb-2 text-uppercase">Reset Password</h2>
                       <p className="text-white-50 mb-5">Create new password</p>
-
-
                         <h3 className='text-danger'>{changeStatuseErr}</h3>
-                       
                           <div className="form-outline form-white mb-4">
                             <input type="password" onChange={(e)=>{setPass(e.target.value);}} id="typePasswordX" className="form-control form-control-lg" placeholder='Enter Password' required />
                           </div>
@@ -81,8 +63,6 @@ export default function Home() {
                           </div>
                           <br/>
                           <button className="btn btn-outline-light btn-lg px-5" onClick={change} type="submit">Reset Password</button>
-        
-
                     </div>
 
                     <div>
