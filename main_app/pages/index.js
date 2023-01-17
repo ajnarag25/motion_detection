@@ -15,15 +15,28 @@ export default function Home() {
           username: logUser, 
           password: logPass
         }).then((response) => {
-          if (response.data.message){
-            setLogstaterr(response.data.message)
+          if (response.data.message == 'Verified'){
+            window.location.href='/motion_detection'
           }else{
-            setLogstaterr('An Error Occured')
+            setLogstaterr(response.data.message)
           }
-          console.log(response);
         });
 
     };
+    const [findEmail, setFindemail] = useState('')
+    const [findStatuseErr, findstaterr] = useState('')
+    const forgot = () =>{
+      Axios.post('http://localhost:2023/find',{
+        email: findEmail, 
+      }).then((response) => {
+        if (response.data.message == 'Email found'){
+          window.location.href='/changepass?email='+findEmail
+        }else{
+          findstaterr(response.data.message)
+        }
+      });
+
+  };
   return (
     <>
       <Head>
@@ -48,7 +61,7 @@ export default function Home() {
                       <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
                       <p className="text-white-50 mb-5">Please enter your username and password   </p>
 
-                      <form action="">
+           
                         <h3 className='text-danger'>{logStatuseErr}</h3>
                         <div className="form-outline form-white mb-4">
                           <input type="text" id="typeUsernameX" onChange={(e)=>{setUser(e.target.value);}} className="form-control form-control-lg" placeholder='Enter Username' required />
@@ -61,7 +74,7 @@ export default function Home() {
                         <p className="small mb-5 pb-lg-2"><a className="text-white-50" data-bs-toggle="modal" data-bs-target="#forgotpass" href="">Forgot password?</a></p>
 
                         <button className="btn btn-outline-light btn-lg px-5" onClick={login} type="submit">Login</button>
-                      </form>
+          
 
                     </div>
 
@@ -84,17 +97,16 @@ export default function Home() {
                 <h5 className="modal-title text-dark " id="exampleModalLabel">Forgot Password</h5>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <form>
                 <div className="modal-body">
-  
-                  <input type="email" id="typeEmailX" className="form-control form-control-lg" placeholder='Enter Email' required />
+                  <h3 className='text-danger'>{findStatuseErr}</h3>
+                  <input type="email" id="typeEmailX" className="form-control form-control-lg" onChange={(e)=>{setFindemail(e.target.value);}} placeholder='Enter Email' required />
                 
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" className="btn btn-danger">Submit</button>
+                  <button type="submit" className="btn btn-danger" onClick={forgot}>Submit</button>
                 </div>
-              </form>
+
 
             </div>
           </div>

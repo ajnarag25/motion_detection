@@ -24,52 +24,52 @@ export default function Home() {
         <Script src="main_script.js"/>
       </Head>
     
-        <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand" href="#">Motion Detection</a>
-                <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <nav className="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
+            <div className="container">
+                <a className="navbar-brand" href="#">Motion Detection</a>
+                <button className="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
-                    <i class="fas fa-bars"></i>
+                    <i className="fas fa-bars"></i>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#team">Team</a></li>
-                        <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Logout</a></li>
+                <div className="collapse navbar-collapse" id="navbarResponsive">
+                    <ul className="navbar-nav ms-auto">
+                        <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded" href="#team">Team</a></li>
+                        <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded" href="./">Logout</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <header class="masthead bg-primary text-white text-center">
-            <div class="container d-flex align-items-center flex-column">
-                <img class="masthead-avatar mb-2" src="./motion.gif" alt="..." />
-                <h1 class="masthead-heading text-uppercase mb-5">Motion Detection</h1>
-                <p class="masthead-subheading font-weight-light mb-5">Simply open a camera you can now detect motion <br/> and you can view all the detected motion in images.</p>
-                <button class="btn btn-success">OPEN CAMERA</button>
+        <header className="masthead bg-primary text-white text-center">
+            <div className="container d-flex align-items-center flex-column">
+                <img className="masthead-avatar mb-2" src="./motion.gif" alt="..." />
+                <h1 className="masthead-heading text-uppercase mb-5">Motion Detection</h1>
+                <p className="masthead-subheading font-weight-light mb-5">Simply open a camera you can now detect motion <br/> and you can view all the detected motion in images.</p>
+                <button className="btn btn-success">OPEN CAMERA</button>
             </div>
         </header>
 
 
-        <section class="page-section portfolio" id="portfolio">
-            <div class="container">
+        <section className="page-section portfolio" id="portfolio">
+            <div className="container">
         
-                <h2 class="page-section-heading text-center text-uppercase text-secondary">List of Detected motions</h2>
-                <div class="divider-custom mb-5">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
+                <h2 className="page-section-heading text-center text-uppercase text-secondary">List of Detected motions</h2>
+                <div className="divider-custom mb-5">
+                    <div className="divider-custom-line"></div>
+                    <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
+                    <div className="divider-custom-line"></div>
                 </div>
          
-                <div class="row justify-content-center">
+                <div className="row justify-content-center">
                 
-                    <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="./sample1.jpg" alt="..." />
+                    <div className="col-md-6 col-lg-4 mb-5">
+                        <div className="portfolio-item mx-auto">
+                            <img className="img-fluid" src="./sample1.jpg" alt="..." />
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 mb-5">
-                        <div class="portfolio-item mx-auto">
-                            <img class="img-fluid" src="./sample2.jpg" alt="..." />
+                    <div className="col-md-6 col-lg-4 mb-5">
+                        <div className="portfolio-item mx-auto">
+                            <img className="img-fluid" src="./sample2.jpg" alt="..." />
                         </div>
                     </div>
 
@@ -78,40 +78,40 @@ export default function Home() {
         </section>
 
 
-        <section class="page-section bg-dark text-white mb-0" id="team">
-            <div class="container">
+        <section className="page-section bg-dark text-white mb-0" id="team">
+            <div className="container">
            
-                <h2 class="page-section-heading text-center text-uppercase text-white">Meet our Team</h2>
+                <h2 className="page-section-heading text-center text-uppercase text-white">Meet our Team</h2>
             
-                <div class="divider-custom divider-light mb-5">
-                    <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
-                    <div class="divider-custom-line"></div>
+                <div className="divider-custom divider-light mb-5">
+                    <div className="divider-custom-line"></div>
+                    <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
+                    <div className="divider-custom-line"></div>
                 </div>
             
-                <div class="row mb-5">
-                    <div class="col-lg-4 text-center"> 
-                        <img class="img-fluid mb-3" src="./team/mel.jpg" width="300" alt="..." />
-                        <h4 class="text-center">Melisa Manalili</h4>
+                <div className="row mb-5">
+                    <div className="col-lg-4 text-center"> 
+                        <img className="img-fluid mb-3" src="./team/mel.jpg" width="300" alt="..." />
+                        <h4 className="text-center">Melisa Manalili</h4>
                     </div>
-                    <div class="col-lg-4 text-center"> 
-                        <img class="img-fluid mb-3" src="./team/rai.jpg" width="300" alt="..." />
-                        <h4 class="text-center">Raiza Gumarang</h4>
+                    <div className="col-lg-4 text-center"> 
+                        <img className="img-fluid mb-3" src="./team/rai.jpg" width="300" alt="..." />
+                        <h4 className="text-center">Raiza Gumarang</h4>
                     </div>
-                    <div class="col-lg-4 text-center"> 
-                        <img class="img-fluid mb-3" src="./team/seya.jpg" width="300" alt="..." />
-                        <h4 class="text-center">Kazzeah Permejo</h4>
+                    <div className="col-lg-4 text-center"> 
+                        <img className="img-fluid mb-3" src="./team/seya.jpg" width="300" alt="..." />
+                        <h4 className="text-center">Kazzeah Permejo</h4>
                     </div>
                 </div>
 
-                <div class="row justify-content-center">
-                    <div class="col-lg-4 text-center"> 
-                        <img class="img-fluid mb-3" src="./team/seph.jpg" width="300" alt="..." />
-                        <h4 class="text-center">Joseph Azupardo</h4>
+                <div className="row justify-content-center">
+                    <div className="col-lg-4 text-center"> 
+                        <img className="img-fluid mb-3" src="./team/seph.jpg" width="300" alt="..." />
+                        <h4 className="text-center">Joseph Azupardo</h4>
                     </div>
-                    <div class="col-lg-4 text-center"> 
-                        <img class="img-fluid mb-3" src="./team/aj.jpg" width="285" alt="..." />
-                        <h4 class="text-center">Avor John Narag</h4>
+                    <div className="col-lg-4 text-center"> 
+                        <img className="img-fluid mb-3" src="./team/aj.jpg" width="285" alt="..." />
+                        <h4 className="text-center">Avor John Narag</h4>
                     </div>
                    
                 </div>
@@ -119,9 +119,9 @@ export default function Home() {
             </div>
         </section>
  
-        <footer class="footer text-center">
-            <div class="container">
-                <div class="text-center text-white p-3">
+        <footer className="footer text-center">
+            <div className="container">
+                <div className="text-center text-white p-3">
                     © 2023 All Rights Reserved:   <a href='#'>Motion Detection</a>
                 </div>
             </div>

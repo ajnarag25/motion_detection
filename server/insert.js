@@ -30,7 +30,7 @@ app.post("/insert", async(req, res) => {
     }else if(password != repassword){
       res.send({ message: "Password does not match" });
     }else{
-      console.log('Successfully registered')
+      res.send({ message: "Successfully Registered" });
       connection.query(
         "INSERT INTO users (username, email, password) VALUES (?,?,?)", [username, email, encrypt],
       );
@@ -56,18 +56,16 @@ app.post("/insert", async(req, res) => {
         if(verified)
         {
           output["status"]=1;
+          output["message"]="Verified";
           console.log('verified')
-          request.redirect('/motion_detection');
-            
         }else{
-          console.log('mali paren lods')
+          console.log('invalid credentials')
           output["status"]=0;
           output["message"]="Invalid password";
         }
     
       }else{
         console.log('invalid')
-        output["status"]=0;
         output["message"]="Invalid username and password";
       }
       response.json(output)
@@ -75,6 +73,51 @@ app.post("/insert", async(req, res) => {
       });
   })
 
+  app.post("/find", (request, response) => {
+    const email = request.body.email
+
+    const query="SELECT * from users where email=?";
+    const params=[email]
+    connection.query(query,params,(err,rows) => {
+      if(err) throw err;
+      //
+      var output={}
+      if(rows.length!=0)
+      {
+        console.log('Email found')
+        output["message"]="Email found";
+    
+      }else{
+        console.log('could not find email')
+        output["message"]="Could not find email";
+      }
+      response.json(output)
+    
+      });
+  })
+
+  app.post("/change", (request, response) => {
+    const password = req.body.password
+    const repassword = req.body.repass
+    const query="SELECT * from users where email=?";
+    const params=[email]
+    connection.query(query,params,(err,rows) => {
+      if(err) throw err;
+      //
+      var output={}
+      if(rows.length!=0)
+      {
+        console.log('Email found')
+        output["message"]="Email found";
+    
+      }else{
+        console.log('could not find email')
+        output["message"]="Could not find email";
+      }
+      response.json(output)
+    
+      });
+  })
 
 
 
