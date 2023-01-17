@@ -40,34 +40,34 @@ app.post("/insert", async(req, res) => {
     );
 });
 
-  app.post("/read", (request, response) => {
-    const req=request.query
-    const query="SELECT password from users where username=?";
-    const params=[req.username]
-    connection.query(query,params,(err,rows) => {
-      if(err) throw err;
-      //
-      var output={}
-      if(rows.length!=0)
-      {
-        var password_hash=rows[0]["password"];
-        const verified = bcrypt.compareSync(req.password, password_hash);
-        if(verified)
-        {
-          output["status"]=1;
-        }else{
-          output["status"]=0;
-          output["message"]="Invalid password";
-        }
+  // app.post("/read", (request, response) => {
+  //   const req=request.query
+  //   const query="SELECT password from users where username=?";
+  //   const params=[req.username]
+  //   connection.query(query,params,(err,rows) => {
+  //     if(err) throw err;
+  //     //
+  //     var output={}
+  //     if(rows.length!=0)
+  //     {
+  //       var password_hash=rows[0]["password"];
+  //       const verified = bcrypt.compareSync(req.password, password_hash);
+  //       if(verified)
+  //       {
+  //         output["status"]=1;
+  //       }else{
+  //         output["status"]=0;
+  //         output["message"]="Invalid password";
+  //       }
     
-      }else{
-        output["status"]=0;
-        output["message"]="Invalid username and password";
-      }
-      response.json(output)
+  //     }else{
+  //       output["status"]=0;
+  //       output["message"]="Invalid username and password";
+  //     }
+  //     response.json(output)
     
-      });
-  })
+  //     });
+  // })
 
 
 
