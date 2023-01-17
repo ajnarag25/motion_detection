@@ -11,46 +11,28 @@ export default function Home() {
   const [regEmail, setEmail] = useState('')
   const [regPass, setPass] = useState('')
   const [regRepass, setRepass] = useState('')
+
+  const [regStatuseErr, setRegstaterr] = useState('')
+
   const signup = () =>{
-    if(regUser=="" || regEmail=="" || regPass==""){
-      Swal.fire({
-        icon: 'error',
-        title: 'Please fill up the necessary information needed',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Okay'
-        }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = "signup";
-            }else{
-                window.location.href = "signup";
-            }
-        })
-    }else if(regPass != regRepass){
-      Swal.fire({
-        icon: 'warning',
-        title: 'Password does not match',
-        confirmButtonColor: '#3085d6',
-        confirmButtonText: 'Okay'
-        }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = "signup";
-            }else{
-                window.location.href = "signup";
-            }
-        })
-    }
-    else{
+  
       Axios.post('http://localhost:2023/insert',{
         username: regUser, 
         email: regEmail, 
-        password: regPass
+        password: regPass,
+        repass: regRepass
       }).then((response)=>{
         console.log(response)
-        window.location.href = "./";
-     
+        if (response.data.message){
+          setRegstaterr(response.data.message)
+        }else{
+          setRegstaterr('An Error Occured')
+        }
+        
       })
-    }
-  };
+  
+  
+    };
   return (
     <>
       <Head>
@@ -75,11 +57,12 @@ export default function Home() {
                       <p className="text-white-50 mb-5">Create an Account</p>
 
                       <form>
+                        <h3 className='text-danger'>{regStatuseErr}</h3>
                         <div className="form-outline form-white mb-4">
                             <input type="text" onChange={(e)=>{setUser(e.target.value);}} id="typeUsernameX" className="form-control form-control-lg" placeholder='Enter Username' required />
                           </div>
                           <div className="form-outline form-white mb-4">
-                            <input type="email" onChange={(e)=>{setEmail(e.target.value);}} id="typeEmailX" className="form-control form-control-lg" placeholder='Enter Email' required />
+                            <input type="text" onChange={(e)=>{setEmail(e.target.value);}} id="typeEmailX" className="form-control form-control-lg" placeholder='Enter Email' required />
                           </div>
                           <div className="form-outline form-white mb-4">
                             <input type="password" onChange={(e)=>{setPass(e.target.value);}} id="typePasswordX" className="form-control form-control-lg" placeholder='Enter Password' required />

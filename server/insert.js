@@ -20,54 +20,60 @@ app.post("/insert", async(req, res) => {
     const username = req.body.username
     const email = req.body.email
     const password = req.body.password
+    const repassword = req.body.repass
     const bcrypt = require('bcryptjs');
     const salt = bcrypt.genSaltSync(10);
     const encrypt = await bcrypt.hash(password, salt)
-        // const { username, email, password } = req.body;
-    connection.query(
+
+    if(username == "" || email == "" || password == ""){
+      res.send({ message: "Please fill up the necessary informations needed" });
+    }else if(password != repassword){
+      res.send({ message: "Password does not match" });
+    }else{
+      console.log('Successfully registered')
+      connection.query(
         "INSERT INTO users (username, email, password) VALUES (?,?,?)", [username, email, encrypt],
-        (err, results) => {
-            try {
-                if (results.affectedRows > 0) {
-                    res.json({ message: "Data has been added!" });
-                } else {
-                    res.json({ message: "Something went wrong." });
-                }
-            } catch (err) {
-                res.json({ message: err });
-            }
-        }
-    );
+      );
+    }
+
 });
 
-  // app.post("/read", (request, response) => {
-  //   const req=request.query
-  //   const query="SELECT password from users where username=?";
-  //   const params=[req.username]
-  //   connection.query(query,params,(err,rows) => {
-  //     if(err) throw err;
-  //     //
-  //     var output={}
-  //     if(rows.length!=0)
-  //     {
-  //       var password_hash=rows[0]["password"];
-  //       const verified = bcrypt.compareSync(req.password, password_hash);
-  //       if(verified)
-  //       {
-  //         output["status"]=1;
-  //       }else{
-  //         output["status"]=0;
-  //         output["message"]="Invalid password";
-  //       }
+  app.post("/read", (request, response) => {
+    const user = request.body.username
+    const pass = request.body.password
+    console.log(user)
+    const query="SELECT password from users where username=?";
+    const params=[user]
+    connection.query(query,params,(err,rows) => {
+      if(err) throw err;
+      //
+      var output={}
+      if(rows.length!=0)
+      {
+        var password_hash=rows[0]["password"];
+        const bcrypt = require('bcryptjs');
+        const verified = bcrypt.compareSync(pass, password_hash);
+        if(verified)
+        {
+          output["status"]=1;
+          console.log('verified')
+          request.redirect('/motion_detection');
+            
+        }else{
+          console.log('mali paren lods')
+          output["status"]=0;
+          output["message"]="Invalid password";
+        }
     
-  //     }else{
-  //       output["status"]=0;
-  //       output["message"]="Invalid username and password";
-  //     }
-  //     response.json(output)
+      }else{
+        console.log('invalid')
+        output["status"]=0;
+        output["message"]="Invalid username and password";
+      }
+      response.json(output)
     
-  //     });
-  // })
+      });
+  })
 
 
 

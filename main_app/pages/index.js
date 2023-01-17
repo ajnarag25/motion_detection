@@ -9,26 +9,20 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
     const [logUser, setUser] = useState('')
     const [logPass, setPass] = useState('')
+    const [logStatuseErr, setLogstaterr] = useState('')
     const login = () =>{
-      if(logUser=="" || logPass==""){
-        Swal.fire({
-          icon: 'error',
-          title: 'Please fill up the necessary information needed',
-          confirmButtonColor: '#3085d6',
-          confirmButtonText: 'Okay',
-          }).then((result) => {
-          if (result.isConfirmed) {
-              window.location.href = "./";
-              }else{
-                  window.location.href = "./";
-              }
-          })
-      }else{
         Axios.post('http://localhost:2023/read',{
           username: logUser, 
           password: logPass
-        })
-      }
+        }).then((response) => {
+          if (response.data.message){
+            setLogstaterr(response.data.message)
+          }else{
+            setLogstaterr('An Error Occured')
+          }
+          console.log(response);
+        });
+
     };
   return (
     <>
@@ -55,6 +49,7 @@ export default function Home() {
                       <p className="text-white-50 mb-5">Please enter your username and password   </p>
 
                       <form action="">
+                        <h3 className='text-danger'>{logStatuseErr}</h3>
                         <div className="form-outline form-white mb-4">
                           <input type="text" id="typeUsernameX" onChange={(e)=>{setUser(e.target.value);}} className="form-control form-control-lg" placeholder='Enter Username' required />
                         </div>
