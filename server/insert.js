@@ -3,7 +3,8 @@ const mysql = require("mysql2");
 const cors = require("cors");
 const app = express();
 const bodyParser = require("body-parser");
-const port = 2023;
+// const port = process.env.port || 2023;
+const port = 2023
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -149,7 +150,47 @@ app.post("/insert", async(req, res) => {
       });
   })
 
+  app.get("/data", async(request, res) => {
+      connection.query("SELECT * FROM detection", (err, results) => {
+          try {
+              if (results.length > 0) {
+                  let new_result = [];
+                  for (let i = 0; i < results.length; i++) {
+                      new_result.push({
+                          image: new Buffer.from(results[i].image).toString("utf8"),
+                          date_time: results[i].date_time
+                      })
+                  }
+                  res.json(new_result)
+              } else {
+                  res.json({ message: 'No added data' });
+              }
+          } catch (err) {
+              res.json({ message: err });
+          }
+      });
+  });
 
+  app.post("/data", (req, res) => {
+      const { date_time } = req.body;
+      const { image } = req.body;
+      console.log(date_time)
+      connection.query(
+          "INSERT INTO detection (date_time, image) VALUES (?, ?)", [date_time, image],
+          (err, results) => {
+              try {
+                  if (results.affectedRows > 0) {
+                      res.json({ message: "Adding successful!" });
+
+                  } else {
+                      res.json({ message: "Error, please check your error" });
+                  }
+              } catch (err) {
+                  res.json({ message: err });
+              }
+          }
+      );
+  });
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

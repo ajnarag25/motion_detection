@@ -9,8 +9,16 @@ import Script from 'next/script'
 // import { SessionProvider } from "next-auth/react"
 
 const inter = Inter({ subsets: ['latin'] })
+export const getStaticProps = async() =>{
+    const res = await fetch('http://localhost:2023/data');
+    const data = await res.json();
 
-export default function Home() {
+    return  {
+        props: {image_blob: data}
+    }
+}
+const getData = ({ image_blob }) =>{
+    
   return (
     <>
       <Head>
@@ -19,9 +27,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossOrigin="anonymous"></link>
-        <Script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"/>
-        <Script src="//cdn.jsdelivr.net/npm/sweetalert2@11"/>
-        <Script src="main_script.js"/>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossOrigin="anonymous"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="main_script.js"></script>
       </Head>
     
         <nav className="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
@@ -45,7 +53,6 @@ export default function Home() {
                 <img className="masthead-avatar mb-2" src="./motion.gif" alt="..." />
                 <h1 className="masthead-heading text-uppercase mb-5">Motion Detection</h1>
                 <p className="masthead-subheading font-weight-light mb-5">Simply open a camera you can now detect motion <br/> and you can view all the detected motion in images.</p>
-                <button className="btn btn-success">OPEN CAMERA</button>
             </div>
         </header>
 
@@ -59,25 +66,33 @@ export default function Home() {
                     <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
                     <div className="divider-custom-line"></div>
                 </div>
-         
+
                 <div className="row justify-content-center">
-                
-                    <div className="col-md-6 col-lg-4 mb-5">
-                        <div className="portfolio-item mx-auto">
-                            <img className="img-fluid" src="./sample1.jpg" alt="..." />
-                        </div>
-                    </div>
-                    <div className="col-md-6 col-lg-4 mb-5">
-                        <div className="portfolio-item mx-auto">
-                            <img className="img-fluid" src="./sample2.jpg" alt="..." />
-                        </div>
-                    </div>
+
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date and Time</th>
+                                <th scope="col">Captured Image</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {image_blob.map(datas => (
+                        <tr>
+                            <td>{datas.date_time}</td>
+                            <td className='text-center'>
+                            <img className='im' width="250" src={`data:image/png;base64,${datas.image}`}
+                            /></td>      
+                        </tr>
+                        ))} 
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
         </section>
-
-
+    
         <section className="page-section bg-dark text-white mb-0" id="team">
             <div className="container">
            
@@ -130,3 +145,12 @@ export default function Home() {
     </>
   )
 }
+
+
+export const config = {
+    api: {bodyParser: {
+            sizeLimit: '4mb',
+        },
+    },
+}
+export default getData;
